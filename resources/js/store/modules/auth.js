@@ -17,6 +17,18 @@ export const auth = {
         authStatus: function (state) {
             return state.authStatus;
         },
+        authToken: function (state) {
+            return state.authToken;
+        },
+        authBranchId: function (state) {
+            return state.authBranchId;
+        },
+        authInfo: function (state) {
+            return state.authInfo;
+        },
+        authMenu: function (state) {
+            return state.authMenu;
+        },
     },
     actions: {
         login: function (context, payload) {
@@ -42,6 +54,9 @@ export const auth = {
             state.authMenu = payload.menu;
             state.authPermission = payload.permission;
             state.authDefaultPermission = payload.defaultPermission;
+        },
+        authInfo: function (state, payload) {
+            state.authInfo = payload;
         },
     },
 };

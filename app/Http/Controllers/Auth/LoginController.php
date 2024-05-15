@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PermissionResource;
+use App\Http\Resources\UserResource;
 use App\Libraries\AppLibrary;
 use App\Models\User;
 use App\Services\PermissionService;
@@ -75,6 +76,7 @@ class LoginController extends Controller
             'message'           => trans('all.message.login_success'),
             'token'             => $this->token,
             'branch_id'         => (int)$user->branch_id,
+            'user'              => new UserResource($user),
             'permission'        => $permission,
             'defaultPermission' => $defaultPermission,
         ], 201);

@@ -4,7 +4,9 @@
     </div>
 
     <div v-if="theme === 'backend'">
-        <main class="db-main" v-if="logged">
+        <main class="mx-main" v-if="logged">
+            <BackendNavbarComponent/>
+            <BackendMenuComponent />
             <router-view></router-view>
         </main>
 
@@ -15,8 +17,14 @@
 </template>
 
 <script>
+    import BackendNavbarComponent from "./layouts/backend/BackendNavbarComponent";
+    import BackendMenuComponent from "./layouts/backend/BackendMenuComponent";
     export default {
         name: "DefaultComponent",
+        components: {
+            BackendNavbarComponent,
+            BackendMenuComponent
+        },
         data() {
             return {
                 theme: "frontend",
@@ -27,5 +35,19 @@
                 return this.$store.getters.authStatus;
             }
         },
+        beforeMount() {
+
+        },
+        watch: {
+            $route(e) {
+                if (e.meta.isFrontend === true) {
+                    this.theme = "frontend";
+                } else if (e.meta.isTable === true) {
+                    this.theme = "table";
+                } else {
+                    this.theme = "backend";
+                }
+            }
+        }
     }
 </script>

@@ -2,6 +2,8 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import ENV from "../config/env";
 import store from "../store";
 import NotFoundComponent from "../components/frontend/otherPage/NotFoundComponent.vue";
+import ExceptionComponent from "../components/frontend/otherPage/ExceptionComponent.vue";
+import DashboardComponent from "../components/admin/dashboard/DashboardComponent.vue";
 import authRoutes from "./modules/authRoutes";
 
 const baseRoutes = [
@@ -16,6 +18,22 @@ const baseRoutes = [
         component: NotFoundComponent,
         meta: {
             isFrontend: true,
+        },
+    },
+    {
+        path: "/exception",
+        name: "route.exception",
+        component: ExceptionComponent,
+    },
+    {
+        path: "/admin/dashboard",
+        component: DashboardComponent,
+        name: "admin.dashboard",
+        meta: {
+            isFrontend: false,
+            auth: true,
+            permissionUrl: "dashboard",
+            breadcrumb: "dashboard",
         },
     },
 ];
