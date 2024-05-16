@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Frontend\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,12 @@ Route::match(['get', 'post'], '/login', function () {
 
 Route::prefix('auth')->middleware(['apiKey', 'localization'])->name('auth.')->namespace('Auth')->group(function () {
     Route::post('/login', [LoginController::class, 'login']);
+});
+
+Route::prefix('frontend')->name('frontend')->middleware(['apiKey','localization'])->group(function() {
+    Route::prefix('setting')->name('setting')->group(function() {
+        Route::get('/', [SettingController::class, 'index']);
+    });
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

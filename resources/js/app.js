@@ -41,9 +41,9 @@ axios.interceptors.request.use(
         if (localStorage.getItem("vuex")) {
             const vuex = JSON.parse(localStorage.getItem("vuex"));
             const token = vuex.auth.authToken;
-            const language = vuex.globalState.lists.language_code;
+            //const language = vuex.globalState.lists.language_code;
             config.headers["Authorization"] = token ? `Bearer ${token}` : "";
-            config.headers["x-localization"] = language;
+            //config.headers["x-localization"] = language;
         }
         return config;
     },

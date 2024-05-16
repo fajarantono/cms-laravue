@@ -139,6 +139,11 @@
     .dimension-navs .dimension-active { @apply text-heading }
     .ff-header.landing-header.active { @apply shadow-xs bg-white }
 
+    /* LOADING */
+    .mx-skeleton-loader {
+        @apply bg-primary/5 rounded-md animate-pulse;
+    }
+
     /* PAYMENT CARD */
     .payment-fieldset { @apply grid grid-cols-2 md:grid-cols-4 justify-center gap-6 mb-12 }
     .payment-label { @apply py-5 px-3 w-full flex flex-col items-center gap-3 rounded-lg shadow-xs text-center cursor-pointer relative border transition-all duration-300 bg-white border-white }

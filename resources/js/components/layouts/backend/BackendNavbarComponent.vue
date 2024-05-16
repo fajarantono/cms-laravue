@@ -2,7 +2,9 @@
     <div class="backdrop"></div>
     <header class="mx-header">
         <router-link class="w-40 flex-shrink-0" :to="{ name: 'admin.dashboard' }">
-            <!-- <img class="w-full" :src="setting.theme_logo" alt="logo"> -->
+            <div v-if="isLoading" class="mx-skeleton-loader w-full h-10"></div>
+            <img v-show="!isLoading" class="w-full" :src="setting.theme_logo" alt="logo" @load="handleImageLoad"
+                @error="handleImageError">
         </router-link>
         <div class="flex items-center justify-end w-full gap-4">
             <div
@@ -86,6 +88,7 @@ export default {
     name: "BackendNavbarComponent",
     data() {
         return {
+            isLoading: true,
             loading: {
                 isActive: false,
             },
@@ -94,17 +97,29 @@ export default {
         }
     },
     computed: {
+        setting: function () {
+            return this.$store.getters['frontendSetting/lists'];
+        },
         authInfo: function() {
             return this.$store.getters.authInfo;
         },
         authBranch: function () {
             return this.$store.getters.authBranchId;
         },
+        permissions: function () {
+            return this.$store.getters.authPermission;
+        }
     },
     mounted() {
         appService.responsiveLoad();
     },
     methods: {
+        handleImageLoad() {
+            this.isLoading = false;
+        },
+        handleImageError() {
+            this.isLoading = false;
+        },
         textShortener: function (text, number = 30) {
             return appService.textShortener(text, number);
         },

@@ -45,7 +45,7 @@ class SiteTableSeeder extends Seeder
         ]);
 
         $envService->addData([
-            'APP_DEBUG'              => 'false',
+            'APP_DEBUG'              => 'true',
             'TIMEZONE'               => 'Asia/Jakarta',
             'CURRENCY'               => 'IDR',
             'CURRENCY_SYMBOL'        => 'Rp',

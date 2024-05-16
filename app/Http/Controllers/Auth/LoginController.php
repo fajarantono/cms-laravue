@@ -4,20 +4,26 @@ namespace App\Http\Controllers\Auth;
 
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MenuResource;
 use App\Http\Resources\PermissionResource;
 use App\Http\Resources\UserResource;
 use App\Libraries\AppLibrary;
 use App\Models\User;
+use App\Services\DefaultAccessService;
+use App\Services\MenuService;
 use App\Services\PermissionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Smartisan\Settings\Facades\Settings;
 
 class LoginController extends Controller
 {
     public string $token;
+    public DefaultAccessService $defaultAccessService;
     public PermissionService $permissionService;
+    public MenuService $menuService;
 
     /**
      * Where to redirect users after login.
@@ -32,11 +38,14 @@ class LoginController extends Controller
      * @return void
      */
     public function __construct(
+        MenuService $menuService,
         PermissionService $permissionService,
+        DefaultAccessService $defaultAccessService
     )
     {
-        //$this->middleware('guest')->except('logout');
+        $this->menuService          = $menuService;
         $this->permissionService    = $permissionService;
+        $this->defaultAccessService = $defaultAccessService;
     }
 
     public function login(Request $request): JsonResponse
@@ -60,6 +69,12 @@ class LoginController extends Controller
             ], 400);
         }
 
+        $branchId = Auth::user()->branch_id;
+        if (Auth::user()->branch_id == 0) {
+            $branchId = Settings::group('site')->get('site_default_branch');
+        }
+
+        $this->defaultAccessService->storeOrUpdate(['branch_id' => $branchId]);
         $user        = User::where('email', $request['email'])->first();
         $this->token = $user->createToken('auth_token')->plainTextToken;
 
@@ -77,6 +92,7 @@ class LoginController extends Controller
             'token'             => $this->token,
             'branch_id'         => (int)$user->branch_id,
             'user'              => new UserResource($user),
+            'menu'              => MenuResource::collection(collect($this->menuService->menu($user->roles[0]))),
             'permission'        => $permission,
             'defaultPermission' => $defaultPermission,
         ], 201);

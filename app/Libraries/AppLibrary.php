@@ -84,6 +84,37 @@ class AppLibrary
         return $buildArray;
     }
 
+    public static function numericToAssociativeArrayBuilder($array): array
+    {
+        $i = 0;
+        $parentId = null;
+        $parentIncrementId = null;
+        $buildArray = [];
+        if (count($array)) {
+            foreach ($array as $arr) {
+                if (!$arr['parent']) {
+                    $parentId = $arr['id'];
+                    $parentIncrementId = $i;
+                    $buildArray[$i] = $arr;
+                    $i++;
+                }
+
+                if ($arr['parent'] == $parentId) {
+                    $buildArray[$parentIncrementId]['children'][] = $arr;
+                }
+            }
+        }
+        if ($buildArray) {
+            foreach ($buildArray as $key => $build) {
+                if ($build['url'] == "#" && !isset($build['children'])) {
+                    unset($buildArray[$key]);
+                }
+            }
+        }
+
+        return $buildArray;
+    }
+
     public static function permissionWithAccess(&$permissions, $rolePermissions): object
     {
         if ($permissions) {
@@ -110,6 +141,43 @@ class AppLibrary
             }
         }
         return $defaultPermission;
+    }
+
+    public static function pluck($array, $value, $key = null, $type = 'object'): array
+    {
+        $returnArray = [];
+        if ($array) {
+            foreach ($array as $item) {
+                if ($key != null) {
+                    if ($type == 'array') {
+                        $returnArray[$item[$key]] = strtolower($value) == 'obj' ? $item : $item[$value];
+                    } else {
+                        $returnArray[$item[$key]] = strtolower($value) == 'obj' ? $item : $item->$value;
+                    }
+                } elseif ($value == 'obj') {
+                    $returnArray[] = $item;
+                } elseif ($type == 'array') {
+                    $returnArray[] = $item[$value];
+                } else {
+                    $returnArray[] = $item->$value;
+                }
+            }
+        }
+        return $returnArray;
+    }
+
+    public static function menu(&$menus, $permissions): array
+    {
+        if ($menus && $permissions) {
+            foreach ($menus as $key => $menu) {
+                if (isset($permissions[$menu['url']]) && !$permissions[$menu['url']]['access']) {
+                    if ($menu['url'] != '#') {
+                        unset($menus[$key]);
+                    }
+                }
+            }
+        }
+        return $menus;
     }
 
     public static function flatAmountFormat($amount): string

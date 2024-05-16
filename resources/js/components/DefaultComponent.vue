@@ -17,8 +17,8 @@
 </template>
 
 <script>
-    import BackendNavbarComponent from "./layouts/backend/BackendNavbarComponent";
-    import BackendMenuComponent from "./layouts/backend/BackendMenuComponent";
+    import BackendNavbarComponent from "./layouts/backend/BackendNavbarComponent.vue";
+    import BackendMenuComponent from "./layouts/backend/BackendMenuComponent.vue";
     export default {
         name: "DefaultComponent",
         components: {
@@ -36,7 +36,9 @@
             }
         },
         beforeMount() {
+            this.$store.dispatch('frontendSetting/lists').then(res => {
 
+            }).catch();
         },
         watch: {
             $route(e) {
