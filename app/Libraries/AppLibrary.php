@@ -192,4 +192,15 @@ class AppLibrary
         }
         return number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '') . env('CURRENCY_SYMBOL');
     }
+
+    public static function username($name)
+    {
+        if ($name) {
+            $username = strtolower(str_replace(' ', '', $name)) . rand(1, 999999);
+            if (User::where(['username' => $username])->first()) {
+                self::username($name);
+            }
+            return $username;
+        }
+    }
 }

@@ -1,4 +1,6 @@
 import VueSimpleAlert from "vue3-simple-alert";
+import store from "../store";
+import statusEnum from "../enums/modules/statusEnum";
 
 export default {
     textShortener: function (text, number = 30) {
@@ -8,6 +10,14 @@ export default {
             }
         }
         return text;
+    },
+
+    statusClass: function (status) {
+        if (status === statusEnum.ACTIVE) {
+            return "mx-table-badge text-green-600 bg-green-100";
+        } else {
+            return "mx-table-badge text-red-600 bg-red-100";
+        }
     },
 
     responsiveLoad: function () {
@@ -40,5 +50,61 @@ export default {
         }
 
         return response;
+    },
+
+    sideDrawerShow: function (id = "sideDrawer") {
+        const drawerDivs = document?.querySelectorAll(".drawer");
+        const drawerSets = document?.querySelectorAll("[data-drawer]");
+        drawerSets?.forEach((drawerSet) => {
+            const targetElm = document?.querySelector(
+                drawerSet?.dataset?.drawer
+            );
+            drawerSets?.forEach((drawerBtn) =>
+                drawerBtn?.classList?.remove("active")
+            );
+            drawerDivs?.forEach((drawerDiv) =>
+                drawerDiv?.classList?.remove("active")
+            );
+            targetElm?.classList?.add("active");
+            drawerSet?.classList?.add("active");
+            document.body.style.overflowY = "hidden";
+            document?.querySelector(".backdrop")?.classList?.add("active");
+        });
+    },
+
+    sideDrawerHide: function (id = "sideDrawer") {
+        const drawerDivs = document?.querySelectorAll(".drawer");
+        const drawerSets = document?.querySelectorAll("[data-drawer]");
+        document?.querySelectorAll("#sidebar")?.forEach((closeBtn) => {
+            drawerSets?.forEach((drawerBtn) =>
+                drawerBtn?.classList?.remove("active")
+            );
+            drawerDivs?.forEach((drawerDiv) =>
+                drawerDiv?.classList?.remove("active")
+            );
+            document?.querySelector(".backdrop")?.classList?.remove("active");
+            document.body.style.overflowY = "auto";
+        });
+    },
+
+    permissionChecker: function (permissionName) {
+        let i,
+            permissions = store.getters.authPermission;
+        for (i = 0; i < permissions.length; i++) {
+            if (
+                typeof permissions[i].name !== "undefined" &&
+                permissions[i].name
+            ) {
+                if (permissions[i].name === permissionName) {
+                    return permissions[i].access;
+                }
+            }
+        }
+    },
+
+    phoneNumber: function (e) {
+        let char = String.fromCharCode(e.keyCode);
+        if (/^[+]?[0-9]*$/.test(char)) return true;
+        else e.preventDefault();
     },
 };

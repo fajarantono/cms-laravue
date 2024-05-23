@@ -29,6 +29,15 @@ export const auth = {
         authMenu: function (state) {
             return state.authMenu;
         },
+        authPermission: function (state) {
+            return state.authPermission;
+        },
+        authDefaultPermission: function (state) {
+            return state.authDefaultPermission;
+        },
+        resetInfo: function (state) {
+            return state.resetInfo;
+        },
     },
     actions: {
         login: function (context, payload) {

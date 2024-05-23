@@ -4,9 +4,13 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Laravel</title>
-        <!-- Fonts -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <!-- PAGE TITLE -->
+    <title>{{ Settings::group('company')->get('company_name') }}</title>
+        <!-- FONTS -->
+    <link rel="stylesheet" href="{{ asset('themes/default/fonts/fontawesome/fontawesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('themes/default/fonts/lab/lab.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     </head>
     <body>
         <div id="app">

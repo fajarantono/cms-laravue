@@ -5,6 +5,7 @@ import NotFoundComponent from "../components/frontend/otherPage/NotFoundComponen
 import ExceptionComponent from "../components/frontend/otherPage/ExceptionComponent.vue";
 import DashboardComponent from "../components/admin/dashboard/DashboardComponent.vue";
 import authRoutes from "./modules/authRoutes";
+import administratorRoutes from "./modules/administratorRoutes";
 
 const baseRoutes = [
     {
@@ -38,7 +39,7 @@ const baseRoutes = [
     },
 ];
 
-const routes = baseRoutes.concat(authRoutes);
+const routes = baseRoutes.concat(authRoutes, administratorRoutes);
 
 const API_URL = ENV.API_URL;
 const router = createRouter({

@@ -246,8 +246,8 @@
     .backdrop.active { @apply visible opacity-100 }
 
     /* BUTTON */
-    .mx-btn { @apply inline-flex items-center justify-center gap-2 rounded-md shadow-mx-card capitalize text-sm font-normal py-2.5 px-4 transition }
-    .mx-btn-full { @apply flex items-center justify-center gap-2 w-full rounded-lg shadow-mx-card capitalize text-sm font-medium py-2.5 px-4 transition }
+    .mx-btn { @apply inline-flex items-center justify-center gap-2 rounded-md shadow-db-card capitalize text-sm font-normal py-2.5 px-4 transition }
+    .mx-btn-full { @apply flex items-center justify-center gap-2 w-full rounded-lg shadow-db-card capitalize text-sm font-medium py-2.5 px-4 transition }
     .xmark-btn { @apply w-6 h-6 leading-6 text-base text-center rounded-full transition bg-gray-100 text-gray-500 hover:text-primary hover:bg-red-100 }
     .mx-btn-outline { @apply inline-flex items-center justify-center gap-1.5 rounded-md capitalize text-sm font-normal py-1.5 px-3 border transition border-gray-200 text-gray-700 bg-white hover:border-primary/20 hover:bg-primary/5 hover:text-primary }
     .mx-btn-outline i { @apply text-xs }
@@ -259,7 +259,7 @@
     .mx-btn-outline.sm { @apply !text-xs !rounded !py-1 !px-2 !gap-1 }
     .mx-btn-outline.sm i { @apply !text-[10px] }
 
-    .mx-btn-fill { @apply inline-flex items-center justify-center gap-1.5 text-sm capitalize shadow-mx-card py-1.5 px-3 rounded-md transition }
+    .mx-btn-fill { @apply inline-flex items-center justify-center gap-1.5 text-sm capitalize shadow-db-card py-1.5 px-3 rounded-md transition }
     .mx-btn-fill i { @apply text-xs }
     .mx-btn-fill.primary { @apply text-primary bg-primary/10 hover:bg-primary/20 }
     .mx-btn-fill.yellow { @apply text-[#F6A609] bg-[#F6A609]/10 hover:bg-[#F6A609]/20 }
@@ -272,7 +272,7 @@
     .mx-btn-fill.sm i { @apply !text-[10px] }
 
     /* CARD */
-    .mx-card { @apply rounded border-none shadow-mx-card bg-white }
+    .mx-card { @apply rounded border-none shadow-db-card bg-white p-5 }
     .mx-card-body { @apply p-5 }
     .mx-card-header { @apply p-5 flex flex-wrap justify-center flex-col items-center sm:flex-row sm:justify-between border-b border-gray-200 gap-5 }
     .mx-card-title { @apply capitalize text-[18px] font-medium font-public text-paragraph }
@@ -305,7 +305,7 @@
 
     .mx-tabBtn { @apply w-full flex items-center justify-center gap-2 rounded sm:rounded-b-none sm:rounded-t capitalize py-2.5 sm:py-3 px-3 text-sm border border-transparent sm:border-b-primary/50 transition hover:bg-gray-100 hover:text-primary }
     .mx-tabBtn.active { @apply text-primary border-primary/50 sm:border-b-white bg-primary/5 sm:bg-white }
-    .mx-tabDiv { @apply hidden rounded sm:rounded-t-none sm:rounded-b py-3 px-4 sm:py-4 sm:px-5 text-sm leading-6 shadow-mx-card border sm:border-x sm:border-b border-primary/50 sm:border-t-white bg-white }
+    .mx-tabDiv { @apply hidden rounded sm:rounded-t-none sm:rounded-b py-3 px-4 sm:py-4 sm:px-5 text-sm leading-6 shadow-db-card border sm:border-x sm:border-b border-primary/50 sm:border-t-white bg-white }
     .mx-tabDiv.active { @apply block }
     .mx-tabBtn span { @apply whitespace-nowrap text-ellipsis overflow-hidden }
 
