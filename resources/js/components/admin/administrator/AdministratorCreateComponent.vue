@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="form-col-12 sm:form-col-6">
-                        <label for="phone" class="text-xs capitalize mb-1 text-heading">{{ $t('label.phone') }}</label>
+                        <label for="phone" class="mx-field-title">{{ $t('label.phone') }}</label>
                         <div :class="errors.phone ? 'invalid' : ''" class="mx-field-control flex items-center">
                             <div class="w-fit flex-shrink-0 dropdown-group">
                                 <button type="button" class="flex items-center gap-1 dropdown-btn">
@@ -67,25 +67,58 @@
                                         class="custom-radio-field" />
                                     <span class="custom-radio-span"></span>
                                 </div>
-                                <label for="inactive" class="db-field-label">{{ $t("label.inactive") }}</label>
+                                <label for="inactive" class="mx-field-label">{{ $t("label.inactive") }}</label>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-col-12">
-                        <div class="flex flex-wrap gap-3 mt-4">
-                            <button type="submit" class="mx-btn py-2 text-white bg-primary">
-                                <i class="lab lab-save"></i>
-                                <span>{{ $t("label.save") }}</span>
-                            </button>
-                            <button type="button" class="modal-btn-outline modal-close" @click="reset">
-                                <i class="lab lab-close"></i>
-                                <span>{{ $t("button.close") }}</span>
-                            </button>
+                    <div class="form-col-12 sm:form-col-6">
+                        <label for="password" class="mx-field-title required">{{ $t("label.password") }}</label>
+                        <input type="password" id="password" class="mx-field-control" autocomplete="off" />
+                        <small class="db-field-alert" v-if="errors.password">{{ errors.password[0] }}</small>
+                    </div>
+
+                    <div class="form-col-12 sm:form-col-6">
+                        <label for="password_confirmation"
+                            class="mx-field-title required">{{ $t("label.password_confirmation")}}</label>
+                        <input type="password" id="password_confirmation" class="mx-field-control" autocomplete="off" />
+                        <small class="mx-field-alert"
+                            v-if="errors.password_confirmation">{{ errors.password_confirmation[0] }}</small>
+                    </div>
+
+                    <div class="form-col-12 sm:form-col-6">
+                        <label class="mx-field-title required" for="current_branch">{{ $t("label.branch") }}</label>
+                        <div class="mx-field-radio-group">
+                            <div class="mx-field-radio">
+                                <div class="custom-radio">
+                                    <input class="custom-radio-field" />
+                                    <span class="custom-radio-span"></span>
+                                </div>
+                                <label for="current_branch"
+                                    class="mx-field-label">{{ $t("label.current_branch") }}</label>
+                            </div>
+                            <div class="mx-field-radio">
+                                <div class="custom-radio">
+                                    <input class="custom-radio-field" type="radio" id="all_branch" value="0" />
+                                    <span class="custom-radio-span"></span>
+                                </div>
+                                <label for="all_branch" class="mx-field-label">{{ $t("label.all_branch") }}</label>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </form>
+        </div>
+        <div class="drawer-footer">
+            <button type="button" class="modal-btn-outline modal-close" @click="reset">
+                <i class="lab lab-close"></i>
+                <span>{{ $t("button.close") }}</span>
+            </button>
+            <button type="button" class="mx-btn py-2 text-white bg-primary" @click="save">
+                <i class="lab lab-save"></i>
+                <span>{{ $t("label.save") }}</span>
+            </button>
         </div>
     </div>
 </template>
@@ -93,6 +126,7 @@
 import SmSidebarModalCreateComponent from '../components/buttons/SmSidebarModalCreateComponent.vue';
 import LoadingComponent from '../components/LoadingComponent.vue';
 import statusEnum from "../../../enums/modules/statusEnum";
+import alertService from "../../../services/alertService";
 import appService from '../../../services/appService';
 
 export default {
@@ -137,9 +171,33 @@ export default {
 
         save: function () {
             try {
-
-            } catch (error) {
-
+                const tempId = this.$store.getters["administrator/temp"].temp_id;
+                this.loading.isActive = true;
+                this.$store.dispatch("administrator/save", this.props).then((res) => {
+                    appService.sideDrawerHide();
+                    this.loading.isActive = false;
+                    alertService.successFlip(
+                        tempId === null ? 0 : 1,
+                        this.$t("menu.administrators")
+                    );
+                    this.props.form = {
+                        name: "",
+                        email: "",
+                        phone: "",
+                        password: "",
+                        password_confirmation: "",
+                        branch_id: this.defaultAccess.branch_id,
+                        status: statusEnum.ACTIVE,
+                        country_code: this.country_code,
+                    };
+                    this.errors = {};
+                }).catch((err) => {
+                    this.loading.isActive = false;
+                    this.errors = err.response.data.errors;
+                })
+            } catch (err) {
+                this.loading.isActive = false;
+                alertService.error(err);
             }
         },
 
