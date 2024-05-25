@@ -26,17 +26,21 @@ Route::prefix('auth')->middleware(['apiKey', 'localization'])->name('auth.')->na
     Route::post('/login', [LoginController::class, 'login']);
 });
 
-Route::prefix('frontend')->name('frontend')->middleware(['apiKey','localization'])->group(function() {
-    Route::prefix('setting')->name('setting')->group(function() {
+Route::prefix('frontend')->name('frontend')->middleware(['apiKey', 'localization'])->group(function () {
+    Route::prefix('setting')->name('setting')->group(function () {
         Route::get('/', [SettingController::class, 'index']);
     });
 });
 
 Route::prefix('admin')->name('admin.')->middleware(['apiKey', 'auth:sanctum', 'localization'])->group(function () {
     Route::prefix('setting')->name('setting.')->group(function () {
-            Route::prefix('branch')->name('branch.')->group(function () {
-                //Route::get('/', BranchController::class, 'index');
-            });
+        Route::prefix('branch')->name('branch.')->group(function () {
+            Route::get('/', [BranchController::class, 'index']);
+            Route::get('/show/{branch}', [BranchController::class, 'show']);
+            Route::post('/', [BranchController::class, 'store']);
+            Route::match(['put', 'patch'], '/{branch}', [BranchController::class, 'update']);
+            Route::delete('/{branch}', [BranchController::class, 'destroy']);
+        });
     });
 
     Route::prefix('administrator')->name('administrator.')->group(function () {
