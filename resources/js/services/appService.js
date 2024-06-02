@@ -87,6 +87,35 @@ export default {
         });
     },
 
+    modalShow: function (id = ".modal") {
+        let modalButton = document?.querySelectorAll("[data-modal]");
+        modalButton?.forEach((modalBtn) => {
+            const modalTarget = document?.querySelector(id);
+            modalTarget?.classList?.add("active");
+            document.body.style.overflowY = "hidden";
+        });
+    },
+
+    modalHide: function (id = ".modal") {
+        let modalDivs = document?.querySelectorAll(id);
+        document.body.style.overflowY = "auto";
+        modalDivs?.forEach((modalDiv) => modalDiv?.classList?.remove("active"));
+    },
+
+    destroyConfirmation: function () {
+        return new VueSimpleAlert.confirm(
+            "You will not be able to recover the deleted record!",
+            "Are you sure?",
+            "warning",
+            {
+                confirmButtonText: "Yes, Delete it!",
+                cancelButtonText: "No, Cancel!",
+                confirmButtonColor: "#696cff",
+                cancelButtonColor: "#8592a3",
+            }
+        );
+    },
+
     permissionChecker: function (permissionName) {
         let i,
             permissions = store.getters.authPermission;

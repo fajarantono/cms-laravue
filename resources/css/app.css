@@ -395,9 +395,12 @@
     .ff-modal { @apply lg:top-[74px] }
     .info-modal { @apply z-70 }
     .modal.ff-modal.active .modal-dialog { @apply lg:mt-10 lg:mb-32 }
+    .modal.ff-modal.active .modal-dialog-md { @apply lg:mt-10 lg:mb-32 }
     .modal.active { @apply visible opacity-100 }
     .modal-dialog { @apply w-full mx-auto max-w-lg rounded-lg transition bg-white }
+    .modal-dialog-md { @apply w-full mx-auto max-w-3xl rounded-lg transition bg-white }
     .modal.active .modal-dialog { @apply my-10 }
+    .modal.active .modal-dialog-md { @apply my-10 }
     .modal-header { @apply flex justify-between gap-5 p-4 border-b border-slate-200 }
     .modal-title { @apply capitalize text-lg font-medium }
     .modal-body { @apply p-4 }

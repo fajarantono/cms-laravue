@@ -9,6 +9,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -93,6 +94,17 @@ class Handler extends ExceptionHandler
                     'message' => 'The specified URL cannot be found.'
                 ],
                 404
+            );
+        }
+
+        if ($e instanceof ValidationException) {
+            return new JsonResponse(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                    'errors' => $e->errors(),
+                ],
+                422
             );
         }
 
