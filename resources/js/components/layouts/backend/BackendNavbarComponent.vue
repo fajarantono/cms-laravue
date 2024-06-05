@@ -18,6 +18,19 @@
                         </h3>
                         <i class="lab lab-arrow-down text-xs ml-1.5 lab-font-size-14"></i>
                     </button>
+                    <ul v-if="branches.length > 0"
+                        class="p-2 w-fit rounded-lg shadow-xl absolute top-14 left-0 z-10 border border-gray-200 bg-white hidden dropdown-list">
+                        <li v-for="branch in branches"
+                            class="flex items-center gap-2 w-full px-2.5 rounded-md transition hover:bg-gray-100">
+                            <input @click="changeBranch(branch.id)" v-model="defaultBranch" type="radio"
+                                :id="'branch_id_' + branch.id" :value="branch.id" name="branch"
+                                class="w-3 cursor-pointer mb-[1px] accent-primary">
+                            <label :for="'branch_id_' + branch.id"
+                                class="capitalize leading-8 text-sm min-w-[150px] cursor-pointer text-heading">
+                                {{ branch.name }}
+                            </label>
+                        </li>
+                    </ul>
 
                 </div>
 
@@ -94,6 +107,11 @@ export default {
             },
             defaultBranch: null,
             defaultLanguage: null,
+            branchProps: {
+                paginate: 0,
+                order_column: "id",
+                order_type: "asc"
+            },
         }
     },
     computed: {
@@ -106,12 +124,19 @@ export default {
         authBranch: function () {
             return this.$store.getters.authBranchId;
         },
+        branches: function () {
+            return this.$store.getters['backendGlobalState/branches'];
+        },
+        branch: function () {
+            return this.$store.getters['backendGlobalState/branchShow'];
+        },
         permissions: function () {
             return this.$store.getters.authPermission;
         }
     },
     mounted() {
         appService.responsiveLoad();
+        this.$store.dispatch('backendGlobalState/branches', this.branchProps).then().catch();
     },
     methods: {
         handleImageLoad() {

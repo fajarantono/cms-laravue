@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Frontend\SettingController;
+use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\BranchController;
 
 /*
@@ -34,6 +35,11 @@ Route::prefix('frontend')->name('frontend')->middleware(['apiKey', 'localization
 
 Route::prefix('admin')->name('admin.')->middleware(['apiKey', 'auth:sanctum', 'localization'])->group(function () {
     Route::prefix('setting')->name('setting.')->group(function () {
+        Route::prefix('company')->name('company.')->group(function () {
+            Route::get('/', [CompanyController::class, 'index']);
+            Route::match(['put', 'patch'], '/', [CompanyController::class, 'update']);
+        });
+
         Route::prefix('branch')->name('branch.')->group(function () {
             Route::get('/', [BranchController::class, 'index']);
             Route::get('/show/{branch}', [BranchController::class, 'show']);
